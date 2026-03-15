@@ -651,7 +651,7 @@ const renderTracks = (release) => {
     const card = document.createElement("article");
     card.className = "track-card";
     card.innerHTML = `
-      <details>
+      <details style="border: 2px solid ${track.color};">
         <summary>
           <div class="track-summary">
             <div class="track-title">
