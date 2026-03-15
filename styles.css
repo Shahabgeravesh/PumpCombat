@@ -1,0 +1,394 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: #1a1b1f;
+  background: #ffffff;
+}
+
+.container {
+  width: min(1100px, 90vw);
+  margin: 0 auto;
+}
+
+.site-header {
+  background: #0f172a;
+  color: #ffffff;
+  padding: 48px 0 40px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  margin: 0 0 8px;
+  opacity: 0.7;
+}
+
+h1 {
+  margin: 0 0 12px;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 640px;
+  font-size: 1.05rem;
+  opacity: 0.9;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  align-items: end;
+  margin: 32px 0;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.control label {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.control input[type="search"],
+.control select,
+.notes textarea {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d9dce5;
+  background: #ffffff;
+  font-size: 0.95rem;
+}
+
+.control.toggle {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.control.toggle label {
+  font-weight: 500;
+  margin: 0;
+}
+
+.control.button-row {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.control.button-row button {
+  width: 100%;
+}
+
+button {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 20px;
+  background: #0f172a;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #1f2937;
+}
+
+button.ghost {
+  background: transparent;
+  color: #0f172a;
+  border: 1px solid #d0d5dd;
+}
+
+.summary-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  border: 1px solid #e4e7ec;
+  margin-bottom: 28px;
+}
+
+.tips-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 22px 24px;
+  border: 1px solid #e4e7ec;
+  margin-bottom: 28px;
+}
+
+.tips-card h2 {
+  margin-top: 0;
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.tips-card ul,
+.tips-card ol {
+  padding-left: 20px;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+  color: #1d2939;
+  font-size: 0.95rem;
+}
+
+.summary-card h2 {
+  margin-top: 0;
+}
+
+.summary-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  font-size: 0.95rem;
+  color: #475467;
+}
+
+.track-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+  margin-bottom: 40px;
+}
+
+.track-card {
+  display: grid;
+  gap: 14px;
+}
+
+.track-card details {
+  border-radius: 12px;
+  border: 1px solid #e4e7ec;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.track-card summary {
+  list-style: none;
+  padding: 16px 18px;
+  display: grid;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.track-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.track-summary {
+  display: grid;
+  gap: 6px;
+}
+
+.track-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.track-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #0f172a;
+  background: #f2f4f7 !important;
+}
+
+.track-focus {
+  font-size: 0.92rem;
+  color: #1d2939;
+  font-weight: 600;
+}
+
+.track-body {
+  padding: 0 18px 18px;
+  display: grid;
+  gap: 14px;
+  border-top: 1px solid #e4e7ec;
+}
+
+.track-body h3 {
+  margin: 8px 0 0;
+  font-size: 1rem;
+}
+
+.track-table {
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid #e4e7ec;
+  overflow: hidden;
+}
+
+.table-title {
+  padding: 8px 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  background: #f9fafb;
+  color: #0f172a;
+}
+
+.track-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.track-table th,
+.track-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-top: 1px solid #e6eaf4;
+  vertical-align: top;
+}
+
+.track-table thead th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #667085;
+  background: #f9fafb;
+}
+
+.track-table tbody tr:nth-child(even) td {
+  background: #fcfcfd;
+}
+
+.round-table .table-title {
+  background: #f9fafb;
+  color: #0f172a;
+}
+
+.round-table th {
+  width: 140px;
+  color: #0f172a;
+}
+
+.round-table td {
+  color: #0f172a;
+}
+
+.track-highlight {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f9fafb;
+  color: #0f172a;
+  border: 1px solid #e4e7ec;
+}
+
+.track-highlight span {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #667085;
+}
+
+.track-highlight strong {
+  font-size: 1rem;
+}
+
+.track-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+}
+
+.track-song {
+  font-size: 0.88rem;
+  color: #475467;
+}
+
+.track-weights {
+  margin: 0;
+  color: #475467;
+  font-size: 0.92rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #eff4ff;
+  color: #2b5cff;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.track-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.track-section strong {
+  font-size: 0.83rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #667085;
+}
+
+.track-section ul {
+  padding-left: 18px;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+  color: #1d2939;
+  font-size: 0.95rem;
+}
+
+.track-section p {
+  margin: 0;
+  color: #1d2939;
+}
+
+.track-section .count {
+  margin-top: 4px;
+}
+
+.notes textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.site-footer {
+  padding: 24px 0 40px;
+  color: #667085;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.count {
+  font-variant-numeric: tabular-nums;
+  color: #2b5cff;
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .controls {
+    grid-template-columns: 1fr;
+  }
+}

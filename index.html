@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BodyPump Cheatsheet</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <p class="eyebrow">Choreography Cheatsheets</p>
+        <h1>BodyPump Instructor Cheatsheet</h1>
+        <p class="subtitle">
+          Quick, repeatable cues to help remember choreography for every release.
+          Starting with BodyPump 135.
+        </p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="controls">
+        <div class="control">
+          <label for="programSelect">Program</label>
+          <select id="programSelect"></select>
+        </div>
+        <div class="control">
+          <label for="releaseSelect">Release</label>
+          <select id="releaseSelect"></select>
+        </div>
+        <div class="control">
+          <label for="searchInput">Search</label>
+          <input id="searchInput" type="search" placeholder="Track, cue, combo..." />
+        </div>
+        <div class="control toggle">
+          <input id="countToggle" type="checkbox" checked />
+          <label for="countToggle">Show counts</label>
+        </div>
+        <div class="control button-row">
+          <button id="expandAllButton" class="ghost">Expand all</button>
+          <button id="collapseAllButton" class="ghost">Collapse all</button>
+        </div>
+        <button id="printButton" class="ghost">Print cheatsheet</button>
+      </section>
+
+      <section class="tips-card">
+        <h2>1-Hour Memorization Sprint</h2>
+        <div class="tips-grid">
+          <div>
+            <h3>Fast Recall Tips</h3>
+            <ul>
+              <li>Create a 3-word hook for each track (e.g., “row-clean-press”).</li>
+              <li>Anchor the first 2 timings in every block (4/4 → 3/1 → 1/1).</li>
+              <li>Say the move out loud on the first 8-count, then count it.</li>
+              <li>Chunk the release: Warm-up+Squats, Chest+Back, Triceps+Biceps, Lunges+Shoulders+Core.</li>
+              <li>End each track with a “finish cue” you always say.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>60-Minute Plan</h3>
+            <ol>
+              <li>0–10: Read all track hooks + key timings once.</li>
+              <li>10–25: Warm-up + Squats (speak timings over music).</li>
+              <li>25–40: Chest + Back + Triceps.</li>
+              <li>40–50: Biceps + Lunges.</li>
+              <li>50–60: Shoulders + Core + Cooldown, then run hooks from memory.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section id="releaseSummary" class="summary-card"></section>
+      <section id="trackGrid" class="track-grid"></section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>Notes are stored locally in your browser for quick recall.</p>
+      </div>
+    </footer>
+  </body>
+</html>
