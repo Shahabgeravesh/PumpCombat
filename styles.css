@@ -311,12 +311,18 @@ button.ghost {
   justify-content: center;
   padding: 2px 8px;
   border-radius: 999px;
-  background: #fff4cc;
-  border: 1px solid #f6d96b;
+  background: var(--count-bg, #fff4cc);
+  border: 1px solid var(--count-border, #f6d96b);
   color: #0f172a;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   min-width: 64px;
+}
+
+.count-inline {
+  min-width: 0;
+  padding: 1px 6px;
+  font-size: 0.8rem;
 }
 
 .track-table thead th {

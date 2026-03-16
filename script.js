@@ -40,7 +40,11 @@ const data = [
               "Block 1: Deadlift 4/4 x2 → 3/1 x4 → Deadrow 1/1/1/1 x4",
               "Block 2: Triple wide deadrow x4 → Upright row 4/4 x2",
               "Block 3: Clean & press 2/2/2/2 x2 → 1/1/1/1 x4 → O/H press 2/2 x4",
-              "Block 4: Wide squat 4/4 x2 → 3/1 x4 → 2/2 x4 → 1/1 x8 → 2/2 x4",
+              "Block 4: Wide squat 4/4 x2",
+              "Block 4: Wide squat 3/1 x4",
+              "Block 4: Wide squat 2/2 x4",
+              "Block 4: Wide squat 1/1 x8",
+              "Block 4: Wide squat 2/2 x4",
               "Block 5: Lunges L then R (4/4 x2 → 2/2 x4 → 2/2 x4 → 4/4 x2)"
             ],
             coaching: [
@@ -109,9 +113,14 @@ const data = [
               "Later rounds are the same—count confidently."
             ],
             sequence: [
-              "Block 1: Chest press 2/2 x7 → staggered 2/2 x4 → bottom halves 8cts x8 → hold",
-              "Block 2: Repeat block 1",
-              "Block 3: Repeat block 1 (36x8)"
+              "Block 1: Chest press 2/2 x7",
+              "Block 1: Staggered press 2/2 x4",
+              "Block 1: Bottom halves 8cts x8",
+              "Block 1: Hold",
+              "Block 2: Chest press 2/2 x4",
+              "Block 2: Staggered press 2/2 x4",
+              "Block 2: Bottom halves 8cts x8",
+              "Block 3: Repeat block 1 + block 2 (36x8)"
             ],
             coaching: [
               "Shoulder blades down and back",
@@ -937,12 +946,111 @@ const renderTracks = (release) => {
                 <tr>
                   <th>#</th>
                   <th>Block / Move</th>
-                  <th>Counts</th>
                 </tr>
               </thead>
               <tbody>
-                ${track.sequence
-                  .map((item, index) => {
+                ${(() => {
+                  const countPalette = {
+                    tempo: {
+                      1: { bg: "#f0fdf4", border: "#22c55e" },
+                      2: { bg: "#ecfeff", border: "#06b6d4" },
+                      3: { bg: "#fef3c7", border: "#f59e0b" },
+                      4: { bg: "#fee2e2", border: "#ef4444" }
+                    },
+                    reps: {
+                      2: { bg: "#ede9fe", border: "#8b5cf6" },
+                      4: { bg: "#dbeafe", border: "#3b82f6" },
+                      8: { bg: "#fef3c7", border: "#f59e0b" },
+                      16: { bg: "#fee2e2", border: "#ef4444" }
+                    },
+                    counts: {
+                      8: { bg: "#f5d0fe", border: "#d946ef" },
+                      16: { bg: "#fbcfe8", border: "#f472b6" },
+                      32: { bg: "#fee2e2", border: "#fb7185" }
+                    }
+                  };
+
+                  const getCountGroupKey = (value) => {
+                    const cleaned = value.replace(/\s+/g, "").toLowerCase();
+                    if (/^\d+x\d+$/.test(cleaned)) {
+                      return { type: "reps", value: parseInt(cleaned.split("x")[1], 10) };
+                    }
+                    if (/^\d+x$/.test(cleaned)) {
+                      return { type: "reps", value: parseInt(cleaned.replace("x", ""), 10) };
+                    }
+                    if (/^x\d+$/.test(cleaned)) {
+                      return { type: "reps", value: parseInt(cleaned.replace("x", ""), 10) };
+                    }
+                    if (/^\d+cts?$/.test(cleaned)) {
+                      return { type: "counts", value: parseInt(cleaned, 10) };
+                    }
+                    if (/^\d+(\/\d+)+$/.test(cleaned)) {
+                      return { type: "tempo", value: parseInt(cleaned.split("/")[0], 10) };
+                    }
+                    return null;
+                  };
+
+                  const getCountStyle = (value) => {
+                    const key = getCountGroupKey(value);
+                    const color =
+                      key && countPalette[key.type] && countPalette[key.type][key.value]
+                        ? countPalette[key.type][key.value]
+                        : null;
+                    if (!color) {
+                      return "";
+                    }
+                    return `style="--count-bg:${color.bg};--count-border:${color.border};"`;
+                  };
+
+                  const expandSequenceItem = (value) => {
+                    const parts = value.split("→").map((part) => part.trim());
+                    if (parts.length < 2) {
+                      const comboMatch = value.match(/\bcombo\b/i);
+                      if (!comboMatch) {
+                        return value;
+                      }
+                      return value;
+                    }
+                    const countPattern =
+                      /\b\d+\s*x\s*\d+\b|\b\d+\s*x\b|\bx\s*\d+\b|\b\d+\/\d+\b|\b\d+\s*cts?\b/gi;
+                    let lastMove = "";
+                    const expanded = parts.map((part) => {
+                      const countIndex = part.search(countPattern);
+                      const move = countIndex > 0 ? part.slice(0, countIndex).trim() : "";
+                      if (move) {
+                        lastMove = move;
+                        return part;
+                      }
+                      if (!move && lastMove && countIndex === 0) {
+                        return `${lastMove} ${part}`.trim();
+                      }
+                      return part;
+                    });
+                    return expanded
+                      .map((part) => {
+                        if (!/combo/i.test(part) || /\bcombo\b.*:/i.test(part)) {
+                          return part;
+                        }
+                        if (!lastMove) {
+                          return part;
+                        }
+                        return part.replace(/\bcombo\b/i, `Combo: ${lastMove}`);
+                      })
+                      .join(" → ");
+                  };
+
+                  const rows = [];
+                  track.sequence.forEach((item) => {
+                    const displayItem = expandSequenceItem(item);
+                    displayItem
+                      .split("→")
+                      .map((segment) => segment.trim())
+                      .filter(Boolean)
+                      .forEach((segment) => rows.push(segment));
+                  });
+
+                  return rows
+                    .map((item, index) => {
                     const rawMatches =
                       item.match(
                         /\b\d+\s*x\s*\d+\b|\b\d+\s*x\b|\bx\s*\d+\b|\b\d+\/\d+\b|\b\d+\s*cts?\b/gi
@@ -968,15 +1076,40 @@ const renderTracks = (release) => {
                     };
                     const counts = rawMatches.map(formatCount).join(", ");
                     const fallback = track.timing ? `Timing: ${track.timing}` : "—";
+                    const countClass = "count-pill count-inline";
+                    const formatInlineCount = (value) => {
+                      const cleaned = value.replace(/\s+/g, "");
+                      if (/^\d+x\d+$/i.test(cleaned)) {
+                        const times = cleaned.split("x")[0];
+                        return `${cleaned} (${times} times)`;
+                      }
+                      if (/^\d+x$/i.test(cleaned)) {
+                        const times = cleaned.replace("x", "");
+                        return `${times} times`;
+                      }
+                      if (/^x\d+$/i.test(cleaned)) {
+                        const times = cleaned.replace("x", "");
+                        return `${times} times`;
+                      }
+                      if (/^\d+cts?$/i.test(cleaned)) {
+                        return cleaned.replace(/cts?/i, " counts");
+                      }
+                      return cleaned;
+                    };
+                    const highlightedItem = item.replace(
+                      /\b\d+\s*x\s*\d+\b|\b\d+\s*x\b|\bx\s*\d+\b|\b\d+\/\d+\b|\b\d+\s*cts?\b/gi,
+                      (match) =>
+                        `<span class="${countClass}" ${getCountStyle(match)}>${formatInlineCount(match)}</span>`
+                    );
                     return `
                       <tr>
                         <td>${index + 1}</td>
-                        <td>${item}</td>
-                        <td><span class="count-pill">${counts || fallback}</span></td>
+                        <td>${highlightedItem}</td>
                       </tr>
                     `;
                   })
-                  .join("")}
+                  .join("");
+                })()}
               </tbody>
             </table>
           </div>
